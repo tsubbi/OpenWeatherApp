@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  background: #dbe2e9;
+  height: 100%;
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 100px 0;
+}
+
+body .container {
+  background: #f8f8f8;
+  width: 80%;
+  max-width: 1100px;
+  -webkit-box-shadow: 0 0 61px 7px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 0 61px 7px rgba(0, 0, 0, 0.25);
+  padding: 50px 20px;
+  border-radius: 20px;
+}
+
+body .container header {
+  margin-bottom: 20px;
+}
+
+body .container header h1 {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+body .container main {
+  text-align: center;
+}
+
+body .container main #gallary {
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(250px, 1fr))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  place-items: center;
+}
+
+body .container main #gallary .item {
+  width: 100%;
+  height: clamp(200px, 250px, 300px);
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  -webkit-transition: 300ms ease box-shadow;
+  transition: 300ms ease box-shadow;
+}
+
+body .container main #gallary .item:hover {
+  -webkit-box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.26);
+          box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.26);
+}
+
+body .container main #gallary .item:hover h3 {
+  bottom: 0;
+}
+
+body .container main #gallary .item h3 {
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.25);
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  bottom: -100%;
+  color: #f0f8ff;
+  font-weight: 300;
+  -webkit-transition: 500ms ease-in-out bottom;
+  transition: 500ms ease-in-out bottom;
+  font-size: 20px;
+}
+
+body .container main #load-more {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 20px 50px;
+  background-color: #000000;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #f0f8ff;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+body .load-img {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+body .load-img .image-content {
+  width: 80%;
+  height: 600px;
+  background: white;
+  padding: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body .load-img .image-content img {
+  max-height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+body .load-img .image-content .close {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  border: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: none;
+  outline: 0;
+}
+
+.viewImg {
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 900px) {
+  .container {
+    max-width: 1160px;
+    padding: 100px;
+  }
+  header h1 {
+    font-size: 50px;
+  }
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+$lightGrayBgColor: #dbe2e9;
+$galleryBgColor: #f8f8f8;
+$photoTitleColor: #f0f8ff;
+$loadMoreBgColor: #000000;
+
+// functions
+@function boxShadow($alpha) {
+    @return rgba(0, 0, 0, $alpha);
+}
+
+// fonts
+$montserrat: 'Montserrat', sans-serif;
+$fontAwsome: 'FontAwesome';

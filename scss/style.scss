@@ -1,0 +1,147 @@
+@import './styleSettings';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+body {
+    font-family: $montserrat;
+    font-size: 10px;
+    background: $lightGrayBgColor;
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0;
+
+    .container {
+        background: $galleryBgColor;
+        width: 80%;
+        max-width: 1100px;
+        box-shadow: 0 0 61px 7px boxShadow(0.25);
+        padding: 50px 20px;
+        border-radius: 20px;
+
+        header {
+            margin-bottom: 20px;
+            h1 {
+                font-size: 40px;
+                font-weight: 900;
+                letter-spacing: -2px;
+            }
+        }
+
+        main {
+            text-align: center;
+
+            #gallary {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                place-items: center;
+    
+                .item {
+                    width: 100%; 
+                    height: clamp(200px, 250px, 300px);
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 8px;
+                    transition: 300ms ease box-shadow;
+    
+                    &:hover {
+                        box-shadow: 0 0 20px 3px boxShadow(0.26);
+    
+                        h3 {
+                            bottom: 0;
+                        }
+                    }
+    
+                    h3 {
+                        width: 100%;
+                        padding: 20px;
+                        position: absolute;
+                        background: boxShadow(0.25);
+                        align-self: flex-end;
+                        bottom: -100%;
+                        color: $photoTitleColor;
+                        font-weight: 300;
+                        transition: 500ms ease-in-out bottom;
+                        font-size: 20px;
+                    }
+                }
+            }
+
+            #load-more {
+                display: inline-block;
+                margin-top: 30px;
+                padding: 20px 50px;
+                background-color: $loadMoreBgColor;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: $photoTitleColor;
+                font-weight: 500;
+                cursor: pointer;
+                font-size: 15px;
+            }
+        }
+    }
+
+    .load-img {
+        position: fixed;
+        background: boxShadow(0.3);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        display: grid;
+        place-items: center;
+
+        .image-content {
+            width: 80%;
+            height: 600px;
+            background: white;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+
+            img {
+                max-height: 100%;
+                object-fit: contain;
+            }
+
+            .close {
+                align-self: flex-end;
+                border: 0;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                background: none;
+                outline: 0;                            
+            }
+        }
+    }
+}
+
+.viewImg {
+    overflow: hidden;
+}
+
+@media only screen and (min-width: 900px) {
+    .container {
+        max-width: 1160px;
+        padding: 100px;
+    }
+
+    header h1 {
+        font-size: 50px;
+    }
+}
