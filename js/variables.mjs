@@ -1,8 +1,13 @@
-export const baseURL = "https://jsonplaceholder.typicode.com";
+export const base_url = "https://api.openweathermap.org";
 
 // router
-export const allUsers = "/users";
-export const photos = "/photos/"
+export const query_city = "/data/2.5/weather";
 
-// limitation
-export const withLimit = "_limit"
+// query parameters
+export const city = "q";
+export const units = "units";
+export const appid = "appid";
+
+// query values
+export const celsius = "metric";
+export const fahrenheit = "imperial";
