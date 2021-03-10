@@ -1,1 +1,382 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto:wght@300;700&family=Ubuntu:wght@300&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Ubuntu", sans-serif;
+}
+
+body {
+  background: #abf5eb;
+  overflow: hidden;
+}
+
+header {
+  width: 100%;
+  padding: 20px 100px;
+  height: 105px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: "Roboto", sans-serif;
+  color: #529696;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+}
+
+header .icon-container {
+  width: 15vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+header .icon-container img {
+  width: 64px;
+  height: 64px;
+}
+
+header .icon-container .logo-content {
+  margin: 5px;
+  width: 105px;
+}
+
+header .icon-container .logo-content span {
+  text-transform: uppercase;
+}
+
+header .icon-container .logo-content span:nth-child(1) {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+header .icon-container .logo-content span:nth-child(2) {
+  font-size: 26px;
+}
+
+header .navigation li {
+  list-style: none;
+}
+
+header .navigation li a {
+  text-decoration: none;
+  font-size: 28px;
+  font-family: "Roboto", sans-serif;
+  color: #529696;
+  position: relative;
+}
+
+header .navigation li a::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 3px;
+  top: 100%;
+  right: 0;
+  background: #ff6347;
+  -webkit-transition: -webkit-transform 500ms;
+  transition: -webkit-transform 500ms;
+  transition: transform 500ms;
+  transition: transform 500ms, -webkit-transform 500ms;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: right;
+          transform-origin: right;
+}
+
+header .navigation li a:hover::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+}
+
+main#index {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  height: calc(100vh - 105px);
+  width: 100%;
+}
+
+main#index #bg {
+  position: fixed;
+  width: 1440px;
+}
+
+main#index #bg #sun {
+  visibility: hidden;
+}
+
+main#index .title {
+  text-align: center;
+  width: 60vw;
+  color: #529696;
+  margin: 30vh auto;
+}
+
+main#index .title h1 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 4vw;
+}
+
+main#index .title p {
+  font-size: 1.8vw;
+}
+
+main#current {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+main#current .search-section {
+  width: clamp(380px, 420px, 480px);
+  position: relative;
+  margin-bottom: 20px;
+  font-family: "Roboto", sans-serif;
+}
+
+main#current .search-section input {
+  width: 75%;
+  border: 0;
+  height: 40px;
+  padding-left: 10px;
+  background: #abf5eb;
+  border-bottom: #808080 solid 2px;
+  outline: none;
+  font-size: 16px;
+  resize: none;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+}
+
+main#current .search-section input:focus + label,
+main#current .search-section input:valid + label {
+  font-size: 0.7em;
+  font-weight: 700;
+  color: #529696;
+  top: -10px;
+}
+
+main#current .search-section input:focus,
+main#current .search-section input:valid {
+  border-bottom: 2px solid #529696;
+}
+
+main#current .search-section label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 15px;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  color: #808080;
+}
+
+main#current .search-section button {
+  height: 40px;
+  width: 24%;
+  font-weight: 700;
+  display: inline-block;
+  text-transform: uppercase;
+  background: #529696;
+  color: #ffffff;
+  letter-spacing: 2px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border: none;
+}
+
+main#current #current-weather {
+  position: relative;
+  width: clamp(380px, 420px, 480px);
+  background: #529696;
+  color: #fff5ee;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  place-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 35px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 5px 35px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+main#current #current-weather .weather-content {
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+}
+
+main#current #current-weather .weather-content .celsius::after {
+  content: "℃";
+}
+
+main#current #current-weather .weather-content .general-info {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+main#current #current-weather .weather-content .general-info .city {
+  font-size: 1.6em;
+}
+
+main#current #current-weather .weather-content .general-info .city span {
+  text-transform: uppercase;
+}
+
+main#current #current-weather .weather-content .general-info .date-time {
+  font-size: 0.8em;
+}
+
+main#current #current-weather .weather-content .body-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 48vh;
+}
+
+main#current #current-weather .weather-content .body-info .left-portion {
+  position: absolute;
+  width: 45%;
+  left: 0;
+}
+
+main#current #current-weather .weather-content .body-info .left-portion .temperture {
+  font-size: 8em;
+  position: relative;
+}
+
+main#current #current-weather .weather-content .body-info .left-portion .temperture span {
+  position: absolute;
+  top: 10%;
+  font-size: 0.6em;
+}
+
+main#current #current-weather .weather-content .body-info .left-portion .top-low-temp {
+  font-size: 1.5em;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+main#current #current-weather .weather-content .body-info .left-portion p {
+  width: 100%;
+  font-size: 2.5em;
+}
+
+main#current #current-weather .weather-content .body-info .right-portion {
+  position: absolute;
+  width: 45%;
+  right: 0;
+  bottom: 0;
+}
+
+main#current #current-weather .weather-content .body-info .right-portion img {
+  width: 300px;
+}
+
+main#current #current-weather .weather-content .bottom-info {
+  width: 100%;
+}
+
+main#current #current-weather .weather-content .bottom-info ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+main#current #current-weather .weather-content .bottom-info ul li {
+  list-style: none;
+  height: 60px;
+  text-align: center;
+}
+
+main#current #current-weather .weather-content .bottom-info ul li div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 80%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+@media (max-width: 900px) {
+  header {
+    padding: 10px 20px;
+  }
+  header .menuToggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    color: #529696;
+    text-align: center;
+    cursor: pointer;
+  }
+  header .menuToggle::before {
+    font-family: "FontAwesome";
+    content: "";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    font-size: 2em;
+  }
+  header .menuToggle.open::before {
+    content: "";
+  }
+  header .navigation {
+    display: none;
+  }
+  header .navigation.open {
+    width: 100%;
+    height: calc(100vh - 105px);
+    position: fixed;
+    top: 105px;
+    left: 0;
+    background: #ffffff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    place-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    z-index: 10;
+  }
+  header .navigation li {
+    margin: 10px 0;
+  }
+}
+/*# sourceMappingURL=style.css.map */

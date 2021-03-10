@@ -1,10 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto:wght@300;700&family=Ubuntu:wght@300&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
-$lightGrayBgColor: #dbe2e9;
-$galleryBgColor: #f8f8f8;
-$photoTitleColor: #f0f8ff;
-$loadMoreBgColor: #000000;
+$mainBgColor: #abf5eb;
+$logoTextColor: #529696;
+$tipUnderlineColor: #ff6347;
+$currentBgColor: #69a0a6;
+$placeholderColor: #808080;
+$currentTextColor: #fff5ee;
+$smallScreenNavColor: #ffffff;
 
 // functions
 @function boxShadow($alpha) {
@@ -12,5 +15,14 @@ $loadMoreBgColor: #000000;
 }
 
 // fonts
-$montserrat: 'Montserrat', sans-serif;
+$architects: 'Architects Daughter', cursive;
+$roboto: 'Roboto', sans-serif;
+$ubuntu: 'Ubuntu', sans-serif;
 $fontAwsome: 'FontAwesome';
+
+// special characters
+$hambergerMenu: '\f0c9';
+$closeIcon: '\f00d';
+// String.fromCharCode(0x2103);
+$celsius: '\2103';
+$fahrenheit: '\2109';
