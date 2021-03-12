@@ -19,41 +19,49 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: $roboto;
-    color: $logoTextColor;
     transition: 500ms;
-
+    
     .icon-container {
         width: 15vw;
-        display: flex;
+        
+        a {
+            display: flex;
+            text-decoration: none;
+            font-family: $roboto;
+            color: $logoTextColor;
 
-        img {
-            width: 64px;
-            height: 64px;
-        }
-
-        .logo-content {
-            margin: 5px;
-            width: 105px;
-
-            span {
-                text-transform: uppercase;
-
-                &:nth-child(1) {
-                    font-size: 21px;
-                    font-weight: 700;    
-                }
-
-                &:nth-child(2) {
-                    font-size: 26px;
+            img {
+                width: 64px;
+                height: 64px;
+            }
+    
+            .logo-content {
+                margin: 5px;
+                width: 105px;
+    
+                span {
+                    text-transform: uppercase;
+    
+                    &:nth-child(1) {
+                        font-size: 21px;
+                        font-weight: 700;    
+                    }
+    
+                    &:nth-child(2) {
+                        font-size: 26px;
+                    }
                 }
             }
         }
     }
 
     .navigation {
+        display:  flex;
+        flex-direction: row;
+
         li {
             list-style: none;
+            margin-left: 20px;
             
             a {
                 text-decoration: none;
@@ -99,6 +107,14 @@ main {
             #sun {
                 visibility: hidden;
             }
+
+            #right_far_cloud {
+                animation: cloud-anime 10s alternate-reverse infinite linear;
+            }
+
+            #right_far_cloud-2 {
+                animation: cloud-anime 7s alternate-reverse infinite linear;
+            }
         }
 
         .title {
@@ -110,11 +126,11 @@ main {
             h1 {
                 font-family: $roboto;
                 font-weight: 700;
-                font-size: 4vw;
+                font-size: 3em;
             }
 
             p {
-                font-size: 1.8vw;
+                font-size: 1.2em;
             }
         }
     }
@@ -286,6 +302,29 @@ main {
             }
         }
     }
+
+    &#forecast {
+        h1 {
+            text-align: center;
+        }
+        table {
+            margin: 30px auto;
+            text-align: center;
+
+            td {
+                padding: 10px;
+            }
+        }
+    }
+}
+
+@keyframes cloud-anime {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform:  translateX(100px);
+    }
 }
 
 @media (max-width: 900px) {
@@ -336,5 +375,19 @@ main {
                 margin: 10px 0;
             }
         }
+    }
+
+    main {
+        &#index {
+            .title {    
+                h1 {
+                    font-size: 2em;
+                }
+    
+                p {
+                    font-size: 1em;
+                }
+            }
+        }    
     }
 }

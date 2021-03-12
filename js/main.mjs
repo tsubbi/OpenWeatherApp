@@ -1,5 +1,5 @@
-import { base_url, query_city, query_city_router, units, appid, celsius } from './variables.mjs';
-import { urlConversion, imageUrl, compareFile, timeConversion } from './utils.mjs';
+import { base_url, query_city, query_city_router, units, appid, celsius, allExceptDaily, exclude, lat, lon, query_forcast_router } from './variables.mjs';
+import { urlConversion, imageUrl, compareFile, timeConversion, findAverage } from './utils.mjs';
 
 let apiKey = "";
 let city = "";
@@ -30,13 +30,18 @@ function pageSetup(target) {
                         // set interval of refresh in every 2 minute
                         setInterval(search, (60*2*1000));
                         break;
+                    case "forecast.html":
+                        fetchForecast();
+                        break;
                     default:
+                        // load svg as bg
                         $("#bg").load("./img/mountainBG.svg");
                 }
             });
     }
 }
 
+// validate the the text input
 function checkEmpty() {
     const input = $("#search");
     if (input === "") {
@@ -48,19 +53,23 @@ function checkEmpty() {
     }
 }
 
+// create header in every page
 function createHeader() {
     // logo section
     const iconContainer = $("<div>").addClass("icon-container");
+    const aTag = $("<a>").attr('href', "./index.html");
     const img = $("<img>").attr('src', './img/logo.png').addClass("logo-icon");
     const logoContent = $("<div>").addClass("logo-content");
     const weatherSpan = $("<span>").text("Weather\n");
     const reportSpan = $("<span>").text("Report");
     logoContent.append(weatherSpan, reportSpan);
-    iconContainer.append(img, logoContent);
+    aTag.append(img, logoContent);
+    iconContainer.append(aTag);
     // toggle menu location and add click event
     const menuToggle = $("<div>").addClass("menuToggle").click(toggleMenu);
 
-    const menuList = ["current"];
+    // page names
+    const menuList = ["current", "forecast"];
     const nav = $("<ul>").addClass("navigation");
     menuList.forEach(menu => {
         const liTag = $("<li>").click(toggleMenu);
@@ -76,14 +85,101 @@ function createHeader() {
     $('header').append(iconContainer, menuToggle, nav);
 }
 
+function fetchForecast() {
+    const latValue = sessionStorage.getItem("lat");
+    const lonValue = sessionStorage.getItem("lon");
+
+    if (lat && lon) {
+        const params = {
+            [lat]: latValue,
+            [lon]: lonValue,
+            [units]: celsius,
+            [exclude]: allExceptDaily,
+            [appid]: apiKey
+        }
+        // combine into url string
+        const url = base_url+query_forcast_router+urlConversion(params);
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const timeOffset = data.timezone_offset;
+                // 8 objects in side the array
+                const dailyArray = data.daily;
+
+                let dateData = [];
+                let sunriseData = [];
+                let sunsetData = [];
+                let avgTempData = [];
+                let avgFeelsLike = [];
+                let humidityData = [];
+                let iconData = [];
+                
+                $("h1").text(sessionStorage.getItem("city"));
+                dailyArray.forEach(day => {
+                    dateData.push(timeConversion(day.sunrise, timeOffset).date);
+                    sunriseData.push(timeConversion(day.sunrise, timeOffset).time);
+                    sunsetData.push(timeConversion(day.sunset, timeOffset).time);
+                    avgTempData.push(findAverage(day.temp)+String.fromCharCode(0x2103));
+                    avgFeelsLike.push(findAverage(day.feels_like)+String.fromCharCode(0x2103));
+                    humidityData.push(day.humidity+"%");
+                    iconData.push(day.weather[0].icon);
+                });
+
+                // remove year
+                const arrangedDate = dateData.map(date => {
+                    let dateArr = date.split(" ");
+                    dateArr.pop();
+                    return dateArr.reverse().join(" ");
+                });
+                // remove data for the first day to give a column to the row title
+                arrangedDate[0] = "";
+                // replace first data to row title
+                const rowTitle = ["Sunrise", "Sunset", "Temperture", "Feels Like", "Humidity", " "];
+                const dataChunk = [sunriseData, sunsetData, avgTempData, avgFeelsLike, humidityData, iconData];
+                rowTitle.forEach((title, index) => {
+                    dataChunk[index][0] = title;
+                });
+                const table = $("<table>");
+                // thead
+                const theadTag = $("<thead>");
+                const tbodyTag = $("<tbody>").addClass("weather-info");
+                arrangedDate.forEach(date => {
+                    const thTag = $("<th>").text(date);
+                    theadTag.append(thTag);
+                });
+                // tbody
+                dataChunk.forEach((eachArray, index) => {
+                    const row = $("<tr>");
+
+                    eachArray.forEach((eachData, i) => {
+                        const cell = $("<td>");
+                        // make sure the target is for showing icons
+                        if (index === dataChunk.length-1 && i > 0) {
+                            const image = $("<img>").attr("src", imageUrl(eachData));
+                            cell.append(image);
+                        } else {
+                            cell.text(eachData);
+                        }
+                        row.append(cell);
+                    });
+
+                    tbodyTag.append(row);
+                });
+
+                table.append(theadTag, tbodyTag);
+                $(".forecast-container").append(table);
+            });
+    } else {
+        alert("Please fetch a city in 'Current' first before look for forecast.");
+    }
+}
+
 function search() {
-    console.log("i come here");
     city === "" ? fetchByCity("vancouver") : fetchByCity(city);
 }
 
 // fetch api and display data
 function fetchByCity(city) {
-    console.log("fetch triggered");
     const params = {
         [query_city]: city,
         [units]: celsius,
@@ -92,8 +188,12 @@ function fetchByCity(city) {
     // combine into url string
     const url = base_url+query_city_router+urlConversion(params);
     fetch(url)
-    .then(response => response.json())
-    .then(data => {
+        .then(response => response.json())
+        .then(data => {
+            // store lat and lon for forecast purpose
+            sessionStorage.setItem("lat", data.coord.lat);
+            sessionStorage.setItem("lon", data.coord.lon);
+            sessionStorage.setItem("city", data.name);
             // clear content if any
             $("#current-weather").html('');
             // get timezone from data
@@ -180,6 +280,7 @@ function fetchByCity(city) {
     });
 }
 
+// open and close menu
 function toggleMenu() {
     $(".navigation").toggleClass("open");
     $(".menuToggle").toggleClass("open");

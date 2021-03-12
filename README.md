@@ -7,6 +7,7 @@ File Structure
 /root 
   ├── index.html
   ├── current.html
+  ├── forcast.html
   ├── .gitignore
   ├── /scss
   │    ├── style.scss            # main style
@@ -23,21 +24,42 @@ File Structure
        └── style.css.map         # converted style map
 ```
 
-Phase 1
+Phase 2
 ---
+
 ### HTML
-- [x] index.html
-- [x] current.html
+
+- [x] ~~forecast.html~~
 
 ### CSS
-- [x] basic style in index.html and current.html
+
+- not enough time to have a good css design
+
+- [x] ~~Make index's bg can be moveable~~
+
+### JS
+
+- [x] ~~add forcast api~~
+- [x] ~~Populate data once fetched~~
+
+
+
+Phase 1
+---
+
+### HTML
+- [x] ~~index.html~~
+- [x] ~~current.html~~
+
+### CSS
+- [x] ~~basic style in index.html and current.html~~
 
   ![](https://cdn.dribbble.com/users/1665362/screenshots/3717413/daily__001_weather_app.png)
 
 ### js
-- [x] fetch data from Open Weather API
-- [x] hide api key
-- [x] Hamberger menu
-- [x] template header
-- [x] add search city
-- [x] add simple error handling
+- [x] ~~fetch data from Open Weather API~~
+- [x] ~~hide api key~~
+- [x] ~~Hamberger menu~~
+- [x] ~~template header~~
+- [x] ~~add search city~~
+- [x] ~~add simple error handling~~
