@@ -3,32 +3,41 @@ Weather App
 
 File Structure
 ---
+```
 /root 
   ├── index.html
+  ├── current.html
   ├── .gitignore
   ├── /scss
-  │    ├── style.css             # main style
-  │    └── _styleSettings.css    # style settings
+  │    ├── style.scss            # main style
+  │    └── _styleSettings.scss   # style settings
   ├── /js
   │    ├── current.mjs           # functions for current.html
   │    ├── variables.mjs         # static global variables
-  │    ├── utils.mjs             # utilities functions
-  │    └── fetcher.mjs           # fetch functions
+  │    └── utils.mjs             # utilities functions
   ├── /img
+  │    ├── logo.png 		         # app logo
   │    └── mountainBG.svg        # index background
   └── /css
        ├── style.css             # converted style
        └── style.css.map         # converted style map
+```
 
 Phase 1
 ---
 ### HTML
-- [ ] index.html
-- [ ] current.html
+- [x] index.html
+- [x] current.html
 
 ### CSS
-- [ ] background that can move
+- [x] basic style in index.html and current.html
+
+  ![](https://cdn.dribbble.com/users/1665362/screenshots/3717413/daily__001_weather_app.png)
 
 ### js
-- [ ] fetch data from Open Weather API
-- [ ] hide api key
+- [x] fetch data from Open Weather API
+- [x] hide api key
+- [x] Hamberger menu
+- [x] template header
+- [x] add search city
+- [x] add simple error handling
