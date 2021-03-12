@@ -26,13 +26,19 @@ export function timeConversion(time, timezone) {
     const dateArray = dateTime.toGMTString().split(' ')
     // remove first and last element in array
     const dateAndTime = dateArray.filter((item, index) => index > 0 && index < dateArray.length -1);
-    const formattedTime = dateAndTime.pop();
+    const formattedTime = trimSecond(dateAndTime.pop());
     const formattedDate = dateAndTime.join(' ');
 
     return { 
         date: formattedDate, 
         time: formattedTime
     };
+}
+
+// show only the hour and minutes
+export function trimSecond(time) {
+    const onlyHourAndMin = time.split(":");
+    return onlyHourAndMin.splice(0, 2).join(":");
 }
 
 // fnd out the average value

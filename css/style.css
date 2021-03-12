@@ -4,8 +4,7 @@
 * {
   padding: 0;
   margin: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-family: "Ubuntu", sans-serif;
 }
 
@@ -18,16 +17,9 @@ header {
   width: 100%;
   padding: 20px 100px;
   height: 105px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-transition: 500ms;
+  justify-content: space-between;
+  align-items: center;
   transition: 500ms;
 }
 
@@ -36,8 +28,6 @@ header .icon-container {
 }
 
 header .icon-container a {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   text-decoration: none;
   font-family: "Roboto", sans-serif;
@@ -68,13 +58,8 @@ header .icon-container a .logo-content span:nth-child(2) {
 }
 
 header .navigation {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  flex-direction: row;
 }
 
 header .navigation li {
@@ -98,26 +83,18 @@ header .navigation li a::after {
   top: 100%;
   right: 0;
   background: #ff6347;
-  -webkit-transition: -webkit-transform 500ms;
-  transition: -webkit-transform 500ms;
   transition: transform 500ms;
-  transition: transform 500ms, -webkit-transform 500ms;
-  -webkit-transform: scaleX(0);
-          transform: scaleX(0);
-  -webkit-transform-origin: right;
-          transform-origin: right;
+  transform: scaleX(0);
+  transform-origin: right;
 }
 
 header .navigation li a:hover::after {
-  -webkit-transform: scaleX(1);
-          transform: scaleX(1);
-  -webkit-transform-origin: left;
-          transform-origin: left;
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 main#index {
   position: relative;
-  display: -ms-grid;
   display: grid;
   height: calc(100vh - 105px);
   width: 100%;
@@ -133,11 +110,11 @@ main#index #bg #sun {
 }
 
 main#index #bg #right_far_cloud {
-  animation: cloud-anime 10s alternate-reverse infinite linear;
+  animation: cloud-anime-to-left 7s alternate-reverse infinite linear;
 }
 
 main#index #bg #right_far_cloud-2 {
-  animation: cloud-anime 7s alternate-reverse infinite linear;
+  animation: cloud-anime 10s alternate-reverse infinite linear;
 }
 
 main#index .title {
@@ -158,16 +135,9 @@ main#index .title p {
 }
 
 main#current {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 main#current .search-section {
@@ -187,7 +157,6 @@ main#current .search-section input {
   outline: none;
   font-size: 16px;
   resize: none;
-  -webkit-transition: 500ms;
   transition: 500ms;
 }
 
@@ -209,7 +178,6 @@ main#current .search-section label {
   top: 10px;
   left: 10px;
   font-size: 15px;
-  -webkit-transition: 500ms;
   transition: 500ms;
   color: #808080;
 }
@@ -226,6 +194,7 @@ main#current .search-section button {
   padding: 10px 20px;
   text-decoration: none;
   border: none;
+  cursor: pointer;
 }
 
 main#current #current-weather {
@@ -233,17 +202,11 @@ main#current #current-weather {
   width: clamp(380px, 420px, 480px);
   background: #529696;
   color: #fff5ee;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   place-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   border-radius: 5px;
-  -webkit-box-shadow: 0 5px 35px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 5px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 35px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 
@@ -275,8 +238,6 @@ main#current #current-weather .weather-content .general-info .date-time {
 }
 
 main#current #current-weather .weather-content .body-info {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   position: relative;
   width: 100%;
@@ -327,12 +288,8 @@ main#current #current-weather .weather-content .bottom-info {
 }
 
 main#current #current-weather .weather-content .bottom-info ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
 
 main#current #current-weather .weather-content .bottom-info ul li {
@@ -342,17 +299,10 @@ main#current #current-weather .weather-content .bottom-info ul li {
 }
 
 main#current #current-weather .weather-content .bottom-info ul li div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 80%;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 main#forecast h1 {
@@ -360,33 +310,40 @@ main#forecast h1 {
 }
 
 main#forecast table {
-  margin: 30px auto;
+  margin: 10px auto;
   text-align: center;
 }
 
-main#forecast table td {
-  padding: 10px;
+main#forecast table thead th {
+  padding: 0 5px;
 }
 
-@-webkit-keyframes cloud-anime {
-  from {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-  }
-  to {
-    -webkit-transform: translateX(100px);
-            transform: translateX(100px);
-  }
+main#forecast table tr td:nth-child(1) {
+  padding-right: 10px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+main#forecast table tr td img {
+  width: 50px;
 }
 
 @keyframes cloud-anime {
   from {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
   }
   to {
-    -webkit-transform: translateX(100px);
-            transform: translateX(100px);
+    transform: translateX(100px);
+  }
+}
+
+@keyframes cloud-anime-to-left {
+  from {
+    transform: translateX(-100px);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
@@ -423,14 +380,9 @@ main#forecast table td {
     top: 105px;
     left: 0;
     background: #ffffff;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     place-items: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
     z-index: 10;
   }
   header .navigation li {

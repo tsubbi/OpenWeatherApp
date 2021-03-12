@@ -1,5 +1,5 @@
-import { base_url, query_city, query_city_router, units, appid, celsius, allExceptDaily, exclude, lat, lon, query_forcast_router } from './variables.mjs';
-import { urlConversion, imageUrl, compareFile, timeConversion, findAverage } from './utils.mjs';
+import { compareFile } from './utils.mjs';
+import { getCurrentWeatherData, handleException, getForecast } from './apiRouter.mjs';
 
 let apiKey = "";
 let city = "";
@@ -23,15 +23,16 @@ function pageSetup(target) {
         fetch("../config.json")
             .then(response => response.json())
             .then(data => {
-                apiKey = data.API_KEY
+                apiKey = data.API_KEY;
                 switch (target) {
                     case "current.html":
+                        // do initial fetch
                         search();
                         // set interval of refresh in every 2 minute
                         setInterval(search, (60*2*1000));
                         break;
                     case "forecast.html":
-                        fetchForecast();
+                        displayForecast();
                         break;
                     default:
                         // load svg as bg
@@ -44,12 +45,12 @@ function pageSetup(target) {
 // validate the the text input
 function checkEmpty() {
     const input = $("#search");
-    if (input === "") {
-        alert("Please enter a city");
+    if (!input.val()) {
+        handleException("User Input is Empty", 600);
     } else {
         city = input.val();
-        fetchByCity(input.val());
-        input.val("")
+        displayCurrentCity(input.val());
+        input.val("");
     }
 }
 
@@ -85,198 +86,134 @@ function createHeader() {
     $('header').append(iconContainer, menuToggle, nav);
 }
 
-function fetchForecast() {
+function displayForecast() {
+    // get data from session storage
     const latValue = sessionStorage.getItem("lat");
     const lonValue = sessionStorage.getItem("lon");
 
-    if (lat && lon) {
-        const params = {
-            [lat]: latValue,
-            [lon]: lonValue,
-            [units]: celsius,
-            [exclude]: allExceptDaily,
-            [appid]: apiKey
-        }
-        // combine into url string
-        const url = base_url+query_forcast_router+urlConversion(params);
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const timeOffset = data.timezone_offset;
-                // 8 objects in side the array
-                const dailyArray = data.daily;
+    // if we can get the lat and lon, we can fetch the data from internet
+    if (latValue && lonValue) {
+        getForecast(latValue, lonValue, apiKey, data => {
+            $("h1").text(sessionStorage.getItem("city"));
+            const rowTitle = [" ", "Sunrise", "Sunset", "Temp", "Feels\nLike", "Humidity", "Wind"];
+            const table = $("<table>");
+            const theadTag = $("<thead>");
+            const tbodyTag = $("<tbody>").addClass("weather-info");
 
-                let dateData = [];
-                let sunriseData = [];
-                let sunsetData = [];
-                let avgTempData = [];
-                let avgFeelsLike = [];
-                let humidityData = [];
-                let iconData = [];
-                
-                $("h1").text(sessionStorage.getItem("city"));
-                dailyArray.forEach(day => {
-                    dateData.push(timeConversion(day.sunrise, timeOffset).date);
-                    sunriseData.push(timeConversion(day.sunrise, timeOffset).time);
-                    sunsetData.push(timeConversion(day.sunset, timeOffset).time);
-                    avgTempData.push(findAverage(day.temp)+String.fromCharCode(0x2103));
-                    avgFeelsLike.push(findAverage(day.feels_like)+String.fromCharCode(0x2103));
-                    humidityData.push(day.humidity+"%");
-                    iconData.push(day.weather[0].icon);
-                });
-
-                // remove year
-                const arrangedDate = dateData.map(date => {
-                    let dateArr = date.split(" ");
-                    dateArr.pop();
-                    return dateArr.reverse().join(" ");
-                });
-                // remove data for the first day to give a column to the row title
-                arrangedDate[0] = "";
-                // replace first data to row title
-                const rowTitle = ["Sunrise", "Sunset", "Temperture", "Feels Like", "Humidity", " "];
-                const dataChunk = [sunriseData, sunsetData, avgTempData, avgFeelsLike, humidityData, iconData];
-                rowTitle.forEach((title, index) => {
-                    dataChunk[index][0] = title;
-                });
-                const table = $("<table>");
-                // thead
-                const theadTag = $("<thead>");
-                const tbodyTag = $("<tbody>").addClass("weather-info");
-                arrangedDate.forEach(date => {
-                    const thTag = $("<th>").text(date);
-                    theadTag.append(thTag);
-                });
-                // tbody
-                dataChunk.forEach((eachArray, index) => {
-                    const row = $("<tr>");
-
-                    eachArray.forEach((eachData, i) => {
-                        const cell = $("<td>");
-                        // make sure the target is for showing icons
-                        if (index === dataChunk.length-1 && i > 0) {
-                            const image = $("<img>").attr("src", imageUrl(eachData));
-                            cell.append(image);
-                        } else {
-                            cell.text(eachData);
-                        }
-                        row.append(cell);
-                    });
-
-                    tbodyTag.append(row);
-                });
-
-                table.append(theadTag, tbodyTag);
-                $(".forecast-container").append(table);
+            // thead
+            rowTitle.forEach(title => {
+                const thTag = $("<th>").text(title);
+                theadTag.append(thTag);
             });
+            // tbody
+            data.daily.forEach(eachRow => {
+                const row = $("<tr>");
+                const rowDatas = Object.values(eachRow);
+                rowDatas.forEach((eachData, i) => {
+                    const cell = $("<td>");
+                    cell.append(eachData);
+                    // if it's the first index
+                    if (i === 0) {
+                        // add image below the data
+                        const image = $("<img>").attr("src", rowDatas[rowDatas.length-1]);
+                        cell.append(image);
+                    } else if (i === rowDatas.length-1) { // since move the image to the first column, do nothing in this block
+                        return;
+                    } 
+                    row.append(cell);
+                });
+                tbodyTag.append(row);
+            });
+            table.append(theadTag, tbodyTag);
+            $(".forecast-container").append(table);
+        });
     } else {
-        alert("Please fetch a city in 'Current' first before look for forecast.");
+        handleException("Please fetch a city in 'Current' first before looking for forecast", 601);
     }
 }
 
 function search() {
-    city === "" ? fetchByCity("vancouver") : fetchByCity(city);
+    city === "" ? displayCurrentCity("vancouver") : displayCurrentCity(city);
 }
 
-// fetch api and display data
-function fetchByCity(city) {
-    const params = {
-        [query_city]: city,
-        [units]: celsius,
-        [appid]: apiKey
-    };
-    // combine into url string
-    const url = base_url+query_city_router+urlConversion(params);
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // store lat and lon for forecast purpose
-            sessionStorage.setItem("lat", data.coord.lat);
-            sessionStorage.setItem("lon", data.coord.lon);
-            sessionStorage.setItem("city", data.name);
-            // clear content if any
-            $("#current-weather").html('');
-            // get timezone from data
-            const timezone = data.timezone;
-            const content = $("<div>").addClass("weather-content");
-            // top section
-            const generalInfo = $("<div>").addClass("general-info");
-            const city = $("<div>").addClass("city").text(`${data.name}, `);
-            const country = $("<span>").text(data.sys.country);
-            city.append(country);
+// display data
+function displayCurrentCity(city) {
+    getCurrentWeatherData(city, apiKey, data => {
+        // clear content if any
+        $("#current-weather").html('');
 
-            const dateTimeObject = timeConversion(data.dt, timezone);
-            const dateAndTime = $("<div>").addClass("date-time");
-            const dateSpan = $("<span>").addClass("date").text(dateTimeObject.date);
-            const timeSpan = $("<span>").addClass("time").text(dateTimeObject.time);
-            dateAndTime.append(dateSpan, " | ", timeSpan);
-            
-            generalInfo.append(city, dateAndTime);
-            // body section
-            // left-portion: including temperture, top/low temperture, and description
-            const bodyInfo = $("<div>").addClass("body-info");
-            const leftPortion = $("<div>").addClass("left-portion");
-            const classNames = ["temperture", "top-temp", "low-temp"];
-            const topAndLowTemp = $("<div>").addClass("top-low-temp");
-            classNames.forEach((className, index) => {
-                const celsius = $("<span>").addClass("celsius");
-                switch (index) {
-                    case 0:
-                        const temperture = $("<div>").addClass(className).text(Math.floor(data.main.temp));
-                        temperture.append(celsius);
-                        leftPortion.append(temperture);
-                        break;
-                    case 1:
-                        const topTempSpan = $("<span>").addClass(className).text(Math.floor(data.main.temp_max));
-                        topTempSpan.append(celsius);
-                        topAndLowTemp.append(topTempSpan, " | ");
-                        break;
-                    case 2:
-                        const lowTempSpan = $("<span>").addClass(className).text(Math.floor(data.main.temp_min));
-                        lowTempSpan.append(celsius);
-                        topAndLowTemp.append(lowTempSpan);
-                        break;
-                    default:
-                        break;
-                }
-            });
-            leftPortion.append(topAndLowTemp);
-            const description = $("<p>").text(data.weather[0].description);
-            leftPortion.append(description);
-            // right side portion
-            const rightPortion = $("<div>").addClass("right-portion");
-            const imageView = $("<img>").attr('src', imageUrl(data.weather[0].icon));
-            rightPortion.append(imageView);
-            bodyInfo.append(leftPortion, rightPortion);
+        const content = $("<div>").addClass("weather-content");
+        // top section
+        const generalInfo = $("<div>").addClass("general-info");
+        const city = $("<div>").addClass("city").text(`${data.name}, `);
+        const country = $("<span>").text(data.country);
+        city.append(country);
 
-            // bottom info
-            const bottomContent = $("<div>").addClass("bottom-info");
-            const ulTag = $("<ul>");
-            const displayDatas = {
-                "Feels Like": data.main.feels_like+String.fromCharCode(0x2103),
-                "Wind": `${data.wind.speed}m/h`,
-                "Humidity": `${data.main.humidity}%`,
-                "Sunrise": timeConversion(data.sys.sunrise, timezone).time,
-                "Sunset": timeConversion(data.sys.sunset, timezone).time
+        const dateAndTime = $("<div>").addClass("date-time");
+        const dateSpan = $("<span>").addClass("date").text(data.date);
+        const timeSpan = $("<span>").addClass("time").text(data.time);
+        dateAndTime.append(dateSpan, " | ", timeSpan);
+        
+        generalInfo.append(city, dateAndTime);
+        // body section
+        // left-portion: including temperture, top/low temperture, and description
+        const bodyInfo = $("<div>").addClass("body-info");
+        const leftPortion = $("<div>").addClass("left-portion");
+        const classNames = ["temperture", "top-temp", "low-temp"];
+        const topAndLowTemp = $("<div>").addClass("top-low-temp");
+        classNames.forEach((className, index) => {
+            const celsius = $("<span>").addClass("celsius");
+            switch (index) {
+            case 0:
+                const temperture = $("<div>").addClass(className).text(data.temperture);
+                temperture.append(celsius);
+                leftPortion.append(temperture);
+                break;
+            default:
+                // check if the object is last
+                const isLastIndex = index === classNames.length-1;
+                // get the corresponding temperature
+                const temp = isLastIndex ? data.minTemp : data.maxTemp;
+                const tempSpan = $("<span>").addClass(className).text(temp);
+                // add seperator between each span
+                topAndLowTemp.append(tempSpan , isLastIndex ? "" :  " | ");
+                break;
             }
-            // create li data from js object
-            Object.entries(displayDatas).forEach((entry) => {
-                const liTag = $("<li>");
-                const infoContent = $("<div>");
-                const title = $("<span>").text(entry[0]);
-                const info = $("<span>").text(entry[1]);
-                infoContent.append(title, info);
-                liTag.append(infoContent);
-                ulTag.append(liTag);
-            });
-            
-            bottomContent.append(ulTag);
+        });
+        leftPortion.append(topAndLowTemp);
+        const description = $("<p>").text(data.description);
+        leftPortion.append(description);
+        // right side portion
+        const rightPortion = $("<div>").addClass("right-portion");
+        const imageView = $("<img>").attr('src', data.icon);
+        rightPortion.append(imageView);
+        bodyInfo.append(leftPortion, rightPortion);
 
-            content.append(generalInfo, bodyInfo, bottomContent);
-            $("#current-weather").append(content);
-        })
-    .catch((error) => {
-        alert(error);
+        // bottom info
+        const bottomContent = $("<div>").addClass("bottom-info");
+        const ulTag = $("<ul>");
+        const displayDatas = {
+            "Feels Like": data.feelsLike,
+            "Wind": data.wind,
+            "Humidity": data.humidity,
+            "Sunrise": data.sunrise,
+            "Sunset": data.sunset
+        }
+        // create li data from js object
+        Object.entries(displayDatas).forEach((entry) => {
+            const liTag = $("<li>");
+            const infoContent = $("<div>");
+            const title = $("<span>").text(entry[0]);
+            const info = $("<span>").text(entry[1]);
+            infoContent.append(title, info);
+            liTag.append(infoContent);
+            ulTag.append(liTag);
+        });
+        
+        bottomContent.append(ulTag);
+
+        content.append(generalInfo, bodyInfo, bottomContent);
+        $("#current-weather").append(content);
     });
 }
 
