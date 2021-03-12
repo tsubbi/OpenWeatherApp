@@ -20,9 +20,7 @@ export function compareFile(file_location) {
 
 // time: unit is sec, in unix format
 export function timeConversion(time, timezone) {
-    // // PST is UTC-8, 60second * 60minutes * 8 hours
-    // let PST = 60*60*8;
-    // the parameter of Date is in millisec
+    // the parameter of Date is in millisec. timezon could have - sign so need to use plus instead of -
     var dateTime = new Date((time+timezone) * 1000);
     // convert date object into array
     const dateArray = dateTime.toGMTString().split(' ')
@@ -35,4 +33,11 @@ export function timeConversion(time, timezone) {
         date: formattedDate, 
         time: formattedTime
     };
+}
+
+// fnd out the average value
+export function findAverage(data) {
+    let values = Object.values(data);
+    let result = values.reduce((total, value) => total+value)/values.length
+    return Math.floor(result);
 }

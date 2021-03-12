@@ -27,44 +27,59 @@ header {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-family: "Roboto", sans-serif;
-  color: #529696;
   -webkit-transition: 500ms;
   transition: 500ms;
 }
 
 header .icon-container {
   width: 15vw;
+}
+
+header .icon-container a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  color: #529696;
 }
 
-header .icon-container img {
+header .icon-container a img {
   width: 64px;
   height: 64px;
 }
 
-header .icon-container .logo-content {
+header .icon-container a .logo-content {
   margin: 5px;
   width: 105px;
 }
 
-header .icon-container .logo-content span {
+header .icon-container a .logo-content span {
   text-transform: uppercase;
 }
 
-header .icon-container .logo-content span:nth-child(1) {
+header .icon-container a .logo-content span:nth-child(1) {
   font-size: 21px;
   font-weight: 700;
 }
 
-header .icon-container .logo-content span:nth-child(2) {
+header .icon-container a .logo-content span:nth-child(2) {
   font-size: 26px;
+}
+
+header .navigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
 header .navigation li {
   list-style: none;
+  margin-left: 20px;
 }
 
 header .navigation li a {
@@ -117,6 +132,14 @@ main#index #bg #sun {
   visibility: hidden;
 }
 
+main#index #bg #right_far_cloud {
+  animation: cloud-anime 10s alternate-reverse infinite linear;
+}
+
+main#index #bg #right_far_cloud-2 {
+  animation: cloud-anime 7s alternate-reverse infinite linear;
+}
+
 main#index .title {
   text-align: center;
   width: 60vw;
@@ -127,11 +150,11 @@ main#index .title {
 main#index .title h1 {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  font-size: 4vw;
+  font-size: 3em;
 }
 
 main#index .title p {
-  font-size: 1.8vw;
+  font-size: 1.2em;
 }
 
 main#current {
@@ -332,6 +355,41 @@ main#current #current-weather .weather-content .bottom-info ul li div {
           justify-content: space-between;
 }
 
+main#forecast h1 {
+  text-align: center;
+}
+
+main#forecast table {
+  margin: 30px auto;
+  text-align: center;
+}
+
+main#forecast table td {
+  padding: 10px;
+}
+
+@-webkit-keyframes cloud-anime {
+  from {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  to {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+}
+
+@keyframes cloud-anime {
+  from {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  to {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+}
+
 @media (max-width: 900px) {
   header {
     padding: 10px 20px;
@@ -377,6 +435,12 @@ main#current #current-weather .weather-content .bottom-info ul li div {
   }
   header .navigation li {
     margin: 10px 0;
+  }
+  main#index .title h1 {
+    font-size: 2em;
+  }
+  main#index .title p {
+    font-size: 1em;
   }
 }
 /*# sourceMappingURL=style.css.map */
