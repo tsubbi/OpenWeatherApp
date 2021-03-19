@@ -20,7 +20,7 @@ $("button").click(checkEmpty);
 function pageSetup(target) {
     if (apiKey === "") {
         // get api_key
-        fetch("../config.json")
+        fetch("https://tsubbi.github.io/OpenWeatherApp/config.json")
             .then(response => response.json())
             .then(data => {
                 apiKey = data.API_KEY;
