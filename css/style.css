@@ -102,7 +102,7 @@ main#index {
 
 main#index #bg {
   position: fixed;
-  width: 1440px;
+  width: 1920px;
 }
 
 main#index #bg #sun {
@@ -393,6 +393,15 @@ main#forecast table tr td img {
   }
   main#index .title p {
     font-size: 1em;
+  }
+  main#index #bg {
+    width: 900px;
+  }
+}
+
+@media (max-width: 1440px) {
+  main#index #bg {
+    width: 1440px;
   }
 }
 /*# sourceMappingURL=style.css.map */
