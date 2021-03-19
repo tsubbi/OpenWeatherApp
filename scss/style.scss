@@ -102,7 +102,7 @@ main {
 
         #bg {
             position: fixed;
-            width: 1440px;
+            width: 1920px;
 
             #sun {
                 visibility: hidden;
@@ -410,6 +410,20 @@ main {
                 p {
                     font-size: 1em;
                 }
+            }
+
+            #bg {
+                width: 900px;
+            }
+        }    
+    }
+}
+
+@media (max-width: 1440px) {
+    main {
+        &#index {
+            #bg {
+                width: 1440px;
             }
         }    
     }
